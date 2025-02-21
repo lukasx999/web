@@ -6,7 +6,7 @@ export interface Player {
 }
 
 function movePlayer(player: Player, key: string) {
-    const player_step = 1;
+    const player_step = 0.001;
 
     switch (key) {
         case 'ArrowLeft':
@@ -45,9 +45,17 @@ export function drawPlayer(player: Player) {
     ctx.clearRect(0, 0, width, height);
 
     ctx.beginPath();
-    ctx.arc(player.x, player.y, player.size, 0, 2 * Math.PI);
+    ctx.arc(
+        player.x * width,
+        player.y * height,
+        player.size * 100,
+        0,
+        2 * Math.PI
+    );
+
     ctx.fillStyle = player.color;
     ctx.fill();
+
     ctx.strokeStyle = "black";
     ctx.stroke();
 

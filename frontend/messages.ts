@@ -1,32 +1,18 @@
 import { Player } from "./player.js";
 
 export enum MessageKind {
-    Hello,
-    Move,
+    PlayerUpdate,
 }
 
 export function stringToMessageKind(str: string): MessageKind | null {
     switch (str) {
-        case "Hello":
-            return MessageKind.Hello;
+        case "PlayerUpdate":
+            return MessageKind.PlayerUpdate;
         default:
             return null;
     }
 }
 
-export interface Message {}
-
-export interface Hello extends Message {
+export interface PlayerUpdate {
     player: Player,
-}
-
-export enum Direction {
-    Right,
-    Left,
-    Up,
-    Down
-}
-
-export interface Move extends Message {
-    direction: Direction,
 }

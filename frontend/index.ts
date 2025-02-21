@@ -1,12 +1,7 @@
 import { Player, drawPlayer } from "./player.js";
 
-import {
-    stringToMessageKind,
-    MessageKind,
-    Hello,
-    Move,
-    Message
-} from "./messages.js";
+import * as msg from "./messages.js";
+import { stringToMessageKind, MessageKind } from "./messages.js";
 
 
 function decodeMessage(raw_data: string): [MessageKind, object] {
@@ -26,19 +21,14 @@ function handleMessage(raw_data: string) {
 
     switch (kind) {
 
-        case MessageKind.Hello:
-            const hello = body as Hello;
+        case MessageKind.PlayerUpdate:
+            const hello = body as msg.PlayerUpdate;
             const player = hello.player;
 
             console.log(hello);
 
             setInterval(() => drawPlayer(player), 50);
 
-            break;
-
-        case MessageKind.Move:
-            throw "Unimplemented";
-            const move = body as Move;
             break;
 
         default:

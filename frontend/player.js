@@ -1,5 +1,5 @@
 function movePlayer(player, key) {
-    const player_step = 1;
+    const player_step = 0.001;
     switch (key) {
         case 'ArrowLeft':
         case 'a':
@@ -33,7 +33,7 @@ export function drawPlayer(player) {
     window.addEventListener("keydown", event => movePlayer(player, event.key));
     ctx.clearRect(0, 0, width, height);
     ctx.beginPath();
-    ctx.arc(player.x, player.y, player.size, 0, 2 * Math.PI);
+    ctx.arc(player.x * width, player.y * height, player.size * 100, 0, 2 * Math.PI);
     ctx.fillStyle = player.color;
     ctx.fill();
     ctx.strokeStyle = "black";

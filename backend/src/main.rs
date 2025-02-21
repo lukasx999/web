@@ -18,7 +18,7 @@ fn echo(ws: ws::WebSocket) -> ws::Channel<'static> {
     let player = Player::new();
     let player: String = serde_json::ser::to_string_pretty(&player).unwrap();
 
-    let msg = Message::Hello {
+    let msg = Message::PlayerUpdate {
         player: Player::new(),
     };
     let msg = serde_json::ser::to_string_pretty(&msg).unwrap();

@@ -12,15 +12,11 @@ function decodeMessage(raw_data) {
 function handleMessage(raw_data) {
     const [kind, body] = decodeMessage(raw_data);
     switch (kind) {
-        case MessageKind.Hello:
+        case MessageKind.PlayerUpdate:
             const hello = body;
             const player = hello.player;
             console.log(hello);
             setInterval(() => drawPlayer(player), 50);
-            break;
-        case MessageKind.Move:
-            throw "Unimplemented";
-            const move = body;
             break;
         default:
             throw "Unreachable";

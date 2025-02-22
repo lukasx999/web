@@ -2,14 +2,6 @@ use rand::Rng;
 use serde::Serialize;
 
 
-#[derive(Debug, Clone, Copy, Serialize)]
-pub enum Direction {
-    Left,
-    Right,
-    Up,
-    Down,
-}
-
 
 const COLORS: &[&'static str] = &[
     "red",
@@ -18,8 +10,9 @@ const COLORS: &[&'static str] = &[
 ];
 
 
-#[derive(Debug, Clone, Serialize)]
+#[derive(Debug, Clone, Serialize, PartialEq)]
 pub struct Player {
+    pub id:    i32,
     pub x:     f32,
     pub y:     f32,
     pub size:  f32,
@@ -27,10 +20,11 @@ pub struct Player {
 }
 
 impl Player {
-    pub fn new() -> Self {
+    pub fn new(id: i32) -> Self {
         let mut rng = rand::rng();
 
         Self {
+            id,
             x:     rng.random(),
             y:     rng.random(),
             size:  rng.random(),

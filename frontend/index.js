@@ -1,32 +1,47 @@
-import { drawPlayer } from "./player.js";
 import { stringToMessageKind, MessageKind } from "./messages.js";
-function decodeMessage(raw_data) {
-    const data = JSON.parse(raw_data);
-    const kind = Object.keys(data)[0];
-    const body = data[kind];
-    const msgkind = stringToMessageKind(kind);
-    if (msgkind === null)
-        throw new Error("Unknown Message Kind");
-    return [msgkind, body];
-}
+const ws = new WebSocket("ws://127.0.0.1:8000/ws");
+const players = new Map();
 function handleMessage(raw_data) {
-    const [kind, body] = decodeMessage(raw_data);
+    const message = JSON.parse(raw_data);
+    const body = message.body;
+    const kind = stringToMessageKind(message.kind);
+    if (kind === null)
+        throw new Error("Unknown Message Kind");
+    console.log(message);
     switch (kind) {
         case MessageKind.PlayerUpdate:
-            const hello = body;
-            const player = hello.player;
-            console.log(hello);
-            setInterval(() => drawPlayer(player), 50);
+            {
+                const data = body;
+                console.log(data);
+            }
+            break;
+        case MessageKind.PlayerJoin:
+            {
+                const data = body;
+                console.log(`Player ${data.id} has joined`);
+                players.set(data.id, data.player);
+            }
+            break;
+        case MessageKind.PlayerLeave:
+            {
+                const data = body;
+                console.log(`Player ${data.id} has left`);
+                players.delete(data.id);
+            }
             break;
         default:
             throw "Unreachable";
     }
 }
-window.onload = _event => {
-    const ws = new WebSocket("ws://127.0.0.1:8000/ws");
-    //ws.onopen      = _event => ws.send("foo");
+window.onload = () => {
+    const btn_disconnect = document.getElementById("disconnect");
+    btn_disconnect.onclick = () => {
+        console.log("Disconnecting...");
+        ws.close();
+    };
     ws.onmessage = msg => {
         handleMessage(msg.data);
     };
-    window.onclose = _event => ws.close();
+    //ws.onopen = _event => ws.send("foo");
+    window.onclose = () => ws.close();
 };
